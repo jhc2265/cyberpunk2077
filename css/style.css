@@ -758,6 +758,9 @@ h1 {
   display: grid;
   place-items: center;
   overflow: hidden;
+  /* 이미지를 프레임 안쪽으로 들여 글리치(RGB 분리)가 가장자리에 잘리지 않게 함 */
+  box-sizing: border-box;
+  padding: 20px 24px;
   background: transparent;
   filter: drop-shadow(0 0 18px rgba(252, 238, 9, 0.18));
 }
@@ -803,6 +806,8 @@ h1 {
 
 .character-copy {
   position: relative;
+  /* 전체↔개인 전환 시 텍스트 줄 수가 달라져도 높이가 변하지 않도록 고정 → 출렁임 방지 */
+  min-height: 460px;
 }
 
 .character-copy p {
@@ -1853,6 +1858,10 @@ p.eyebrow,
   .world,
   .districts {
     grid-template-columns: 1fr;
+  }
+
+  .character-copy {
+    min-height: 0;
   }
 
   .districts .district-intro,
