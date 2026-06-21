@@ -1,11 +1,11 @@
-# 사이버펑크 2077 홈페이지 리디자인 (cyberpunk 2077 homepage redesign) 🌃
+# 사이버펑크 2077 홈페이지 리디자인 (cyberpunk 2077 redesign) 🌃
 
 > 사이버펑크 2077을 모티프로 한 비공식 한국어 리디자인 콘셉트 사이트
-> ⚠️ 팬 제작 학습용 프로젝트입니다.
+> <br> ⚠️ 팬 제작 학습용 프로젝트입니다.
 > *Cyberpunk 2077* 및 관련 IP의 모든 권리는 **CD PROJEKT RED**에 있으며, 본 저장소는 상업적 목적이 아닙니다.
 
 나이트 시티의 세계관, 도시 구역, 전설적 캐릭터들을 인터랙티브하게 탐험하는 정적(static) 랜딩 페이지입니다. 
-프레임워크 없이 순수 **HTML / CSS / JavaScript**로만 만들었습니다.
+<br> 프레임워크 없이 순수 **HTML / CSS / JavaScript**로만 만들었습니다.
 
 🔗 **데모**
 - GitHub Pages: https://jhc2265.github.io/cyberpunk2077/
