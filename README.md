@@ -133,5 +133,4 @@ Unofficial fan concept for learning purposes. *Cyberpunk 2077*, its logo, charac
 intellectual property of **CD PROJEKT RED**. The code here is for educational use — do not use the
 bundled image/video assets commercially.
 
-비공식 팬 콘셉트 학습 프로젝트입니다. *Cyberpunk 2077* 및 로고·캐릭터·세계관 등 모든 지식재산권은
-**CD PROJ
+비공식 팬 콘셉트 학습 프로젝트입니다. *Cyberpunk 2077* 및 로고·캐릭터·세계관 등 모든 지식재산권은**CD PROJEKT RED**에 있습니다. 
