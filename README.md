@@ -6,9 +6,6 @@
 
 🔗 **데모**
 - GitHub Pages: https://jhc2265.github.io/cyberpunk2077/
-- 배포 후 활성화됩니다. (정적 사이트라 로그인·설정 없이 바로 열립니다.)
-
-![미리보기](assets/hero-main-visual.png)
 
 > ⚠️ 팬 제작 학습용 프로젝트입니다. *Cyberpunk 2077* 및 관련 IP의 모든 권리는 **CD PROJEKT RED**에 있으며, 본 저장소는 상업적 목적이 아닙니다.
 
