@@ -134,5 +134,4 @@ intellectual property of **CD PROJEKT RED**. The code here is for educational us
 bundled image/video assets commercially.
 
 비공식 팬 콘셉트 학습 프로젝트입니다. *Cyberpunk 2077* 및 로고·캐릭터·세계관 등 모든 지식재산권은
-**CD PROJEKT RED**에 있습니다. 본 저장소 코드는 학습 목적이며, 포함된 이미지·영상 자산을 상업적으로
-사용하지 마세요.
+**CD PROJ

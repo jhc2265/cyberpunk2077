@@ -1,0 +1,19 @@
+chrome-profile/
+preview-*.png
+*-server-*.log
+server-*.log
+assets/character-contact-sheet.png
+assets/wide-contact-sheet.png
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Unused source files at repo root (kept locally, not deployed)
+*-Photoroom.png
+/*.mp4
+
+# Working backups of original assets (not needed for deployment)
+assets/icon-original/
+assets/character-original/
+assets/map-original/
