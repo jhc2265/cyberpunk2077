@@ -11,7 +11,8 @@ document.querySelectorAll(".nav a").forEach((link) => {
   });
 });
 
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// OS '동작 줄이기' 설정과 무관하게 항상 애니메이션 작동 (원래: window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+const reduceMotion = false;
 
 function setupAutoplay(name, start, stop) {
   const button = document.querySelector(`[data-autoplay="${name}"]`);
@@ -248,25 +249,25 @@ document.addEventListener("keydown", (event) => {
 const worldSlides = [
   {
     title: "나이트 시티",
-    subtitle: "기회와 폭력이 공존하는 도시",
+    subtitle: "기회와 폭력이\n공존하는 도시",
     desc: "거대 기업의 탐욕과 지하 세계의 욕망,\n사이버 네트워크가 얽힌 거대한 미로.\n당신의 선택이 이 도시의 미래를 바꾼다.",
     image: "assets/world-night-city.png",
   },
   {
     title: "기업 지배 사회",
-    subtitle: "권력이 법이 되는 세계",
+    subtitle: "권력이 법이\n되는 세계",
     desc: "도시의 질서는 기업의 손에서 다시 쓰인다.\n돈과 데이터, 무력으로 움직이는 세계 속에서\n진실은 언제나 가장 비싼 대가를 요구한다.",
     image: "assets/world-corporate.png",
   },
   {
     title: "사이버웨어",
-    subtitle: "인간의 한계를 넘어서는 기술",
+    subtitle: "인간의 한계를\n넘어서는 기술",
     desc: "신체는 더 이상 타고난 조건이 아니다.\n팔, 눈, 신경, 기억까지 개조하며\n새로운 힘과 또 다른 위험을 마주한다.",
     image: "assets/world-cyberware.png",
   },
   {
     title: "배드랜드",
-    subtitle: "네온 밖에 펼쳐진 황무지",
+    subtitle: "네온 밖에\n펼쳐진 황무지",
     desc: "도시의 빛이 닿지 않는 끝없는 사막.\n법도 보호도 없는 땅에서 살아남기 위해\n속도와 동료, 그리고 선택만이 길이 된다.",
     image: "assets/world-badlands.png",
   },
@@ -518,23 +519,53 @@ if (newsRotator && newsTrack && !reduceMotion) {
 
 const heroVideo = document.querySelector(".hero .visual-video");
 const heroPrimaryBtn = document.querySelector(".hero .btn-primary");
-if (heroVideo && heroPrimaryBtn) {
+if (heroVideo) {
   heroVideo.loop = true;
-  heroVideo.pause();
-  const playClip = () => {
+  heroVideo.muted = true; // 자동재생 허용을 위해 항상 음소거
+  heroVideo.setAttribute("playsinline", "");
+
+  // hover가 가능한 기기(데스크톱)인지 판별 — 터치 기기는 hover가 없음
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  const tryPlay = () => {
     if (reduceMotion) return;
-    heroVideo.currentTime = 0;
     const p = heroVideo.play();
     if (p && p.catch) p.catch(() => {});
   };
-  const resetClip = () => {
+
+  if (canHover && heroPrimaryBtn) {
+    // 데스크톱: 기존대로 "지금 접속" 버튼에 hover/focus 시 재생
     heroVideo.pause();
-    heroVideo.currentTime = 0;
-  };
-  heroPrimaryBtn.addEventListener("mouseenter", playClip);
-  heroPrimaryBtn.addEventListener("focus", playClip);
-  heroPrimaryBtn.addEventListener("mouseleave", resetClip);
-  heroPrimaryBtn.addEventListener("blur", resetClip);
+    const playClip = () => {
+      if (reduceMotion) return;
+      heroVideo.currentTime = 0;
+      tryPlay();
+    };
+    const resetClip = () => {
+      heroVideo.pause();
+      heroVideo.currentTime = 0;
+    };
+    heroPrimaryBtn.addEventListener("mouseenter", playClip);
+    heroPrimaryBtn.addEventListener("focus", playClip);
+    heroPrimaryBtn.addEventListener("mouseleave", resetClip);
+    heroPrimaryBtn.addEventListener("blur", resetClip);
+  } else {
+    // 모바일/터치: 화면에 보이면 바로 자동재생, 벗어나면 일시정지(배터리 절약)
+    if ("IntersectionObserver" in window) {
+      const heroIo = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) tryPlay();
+            else heroVideo.pause();
+          });
+        },
+        { threshold: 0.25 }
+      );
+      heroIo.observe(heroVideo);
+    } else {
+      tryPlay();
+    }
+  }
 }
 
 if (!reduceMotion && "IntersectionObserver" in window) {

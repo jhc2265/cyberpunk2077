@@ -318,6 +318,13 @@ h2 {
   font-weight: 400;
 }
 
+/* 한글 제목이 단어 중간에서 끊기지 않도록(공백에서만 줄바꿈) */
+h1,
+h2,
+h3 {
+  word-break: keep-all;
+}
+
 h1 {
   max-width: 620px;
   margin-bottom: 24px;
@@ -903,6 +910,142 @@ h1 {
   display: none;
 }
 
+/* ============================================================
+   단체 뷰(LEGENDS) 전용 앰비언트 이펙트
+   - 스캔라인 / 스캔 빔 / 글로우 호흡 / 순차·호버 리티클
+   - .has-selection(개인 선택) 상태에서는 모두 자동으로 꺼짐
+   ============================================================ */
+
+/* (3) 글로우 호흡 — 노란 외곽 글로우가 천천히 강약 반복 */
+.character-image:not(.has-selection) {
+  animation: legendGlow 4.5s ease-in-out infinite;
+}
+
+@keyframes legendGlow {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(252, 238, 9, 0.14)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(252, 238, 9, 0.32)); }
+}
+
+/* (1a) 스캔라인 — CRT 가로줄이 아래로 천천히 흐름 */
+.fx-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 8, 12, 0.22) 3px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: multiply;
+  animation: legendScanlines 7s linear infinite;
+}
+
+@keyframes legendScanlines {
+  to { background-position: 0 56px; }
+}
+
+/* (2) 떠다니는 입자 — 작은 시안색 불씨/먼지가 아래에서 위로 천천히 떠오름 */
+.fx-embers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fx-embers::before,
+.fx-embers::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* 앞쪽(밝고 큰) 입자 */
+.fx-embers::before {
+  box-shadow:
+    60px 520px 0 0 rgba(0, 240, 255, 0.7),
+    180px 470px 0 1px rgba(0, 240, 255, 0.5),
+    300px 540px 0 0 rgba(180, 245, 255, 0.7),
+    430px 480px 0 0 rgba(0, 240, 255, 0.6),
+    560px 520px 0 1px rgba(252, 238, 9, 0.4),
+    690px 460px 0 0 rgba(0, 240, 255, 0.55),
+    820px 530px 0 0 rgba(180, 245, 255, 0.6),
+    250px 500px 0 0 rgba(0, 240, 255, 0.5),
+    640px 510px 0 0 rgba(0, 240, 255, 0.6);
+  animation: emberRise 11s linear infinite;
+}
+
+/* 뒤쪽(작고 흐린) 입자 — 다른 속도로 깊이감 */
+.fx-embers::after {
+  box-shadow:
+    120px 540px 0 0 rgba(0, 240, 255, 0.4),
+    240px 500px 0 0 rgba(0, 240, 255, 0.35),
+    370px 530px 0 0 rgba(180, 245, 255, 0.4),
+    500px 490px 0 0 rgba(0, 240, 255, 0.35),
+    620px 540px 0 0 rgba(252, 238, 9, 0.25),
+    760px 500px 0 0 rgba(0, 240, 255, 0.4),
+    880px 520px 0 0 rgba(0, 240, 255, 0.3),
+    420px 510px 0 0 rgba(0, 240, 255, 0.35);
+  animation: emberRise 15s linear infinite;
+  animation-delay: -7s;
+}
+
+@keyframes emberRise {
+  0%   { transform: translateY(0); opacity: 0; }
+  12%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(-560px); opacity: 0; }
+}
+
+/* 모바일용: 작은 패널 높이에 맞춰 이동 거리 축소 */
+@keyframes emberRiseMobile {
+  0%   { transform: translateY(0); opacity: 0; }
+  12%  { opacity: 0.9; }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(-300px); opacity: 0; }
+}
+
+/* 개인 선택 시 오버레이 숨김 */
+.character-image.has-selection .fx-scanlines,
+.character-image.has-selection .fx-embers {
+  display: none;
+}
+
+/* (1b) 주기적 글리치 + 숨쉬는 줌
+   - 글리치는 filter만, 줌은 transform만 → 서로 충돌하지 않게 분리 */
+.character-image:not(.has-selection):not(.is-glitching) img {
+  animation: legendIdleGlitch 7s steps(1, end) infinite,
+             legendBreathe 8s ease-in-out infinite;
+}
+
+/* 숨쉬는 줌 단독(글리치 중에도 줌 유지) */
+.character-image:not(.has-selection).is-glitching img {
+  animation: charGlitch 0.5s steps(1, end), legendBreathe 8s ease-in-out infinite;
+}
+
+@keyframes legendIdleGlitch {
+  0%, 87%   { filter: none; }
+  89%       { filter: drop-shadow(-5px 0 0 rgba(0, 240, 255, 0.6)) drop-shadow(5px 0 0 rgba(255, 42, 109, 0.55)); }
+  92%       { filter: drop-shadow(4px -2px 0 rgba(0, 240, 255, 0.55)) drop-shadow(-4px 2px 0 rgba(255, 42, 109, 0.5)); }
+  95%       { filter: drop-shadow(-6px 0 0 rgba(0, 240, 255, 0.5)) drop-shadow(6px 0 0 rgba(255, 42, 109, 0.5)); }
+  97%, 100% { filter: none; }
+}
+
+/* (3) 숨쉬는 줌 — 단체샷이 아주 느리게 확대/축소되며 살아있는 느낌 */
+@keyframes legendBreathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.035); }
+}
+
 .cursor-ping {
   position: absolute;
   z-index: 3;
@@ -970,7 +1113,8 @@ h1 {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* '동작 줄이기' 무시: 절대 매칭되지 않는 조건으로 비활성화 (되돌리려면 'and (min-width: 999999px)' 제거) */
+@media (prefers-reduced-motion: reduce) and (min-width: 999999px) {
   .character-image.has-selection .char-back {
     animation: none;
   }
@@ -1217,8 +1361,9 @@ p.eyebrow,
 
 .world {
   display: grid;
-  grid-template-columns: 0.8fr 1.4fr;
-  gap: clamp(26px, 5vw, 72px);
+  /* 도시 구역(.districts) 그리드와 동일하게 맞춰 두 섹션의 좌/우 정렬 일치 */
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.55fr);
+  gap: clamp(16px, 2vw, 28px);
   align-items: center;
 }
 
@@ -1230,6 +1375,8 @@ p.eyebrow,
   color: var(--yellow);
   font-size: clamp(28px, 3vw, 45px);
   line-height: 1.18;
+  /* 부제목을 슬라이드마다 항상 2줄로(\n 줄바꿈 적용) → 높이 일정 */
+  white-space: pre-line;
 }
 
 .world p:not(.eyebrow),
@@ -1668,7 +1815,8 @@ p.eyebrow,
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* '동작 줄이기' 무시: 절대 매칭되지 않는 조건으로 비활성화 (되돌리려면 'and (min-width: 999999px)' 제거) */
+@media (prefers-reduced-motion: reduce) and (min-width: 999999px) {
   .foot-card::after {
     animation: none;
   }
@@ -1886,7 +2034,15 @@ p.eyebrow,
     right: auto;
     bottom: auto;
     width: 100%;
+    /* min-width:0 → aspect-ratio+min-height가 그리드 칸을 화면보다 넓게 밀어내는 blowout 방지 */
+    min-width: 0;
     min-height: 440px;
+    /* 메인 비주얼을 히어로 맨 위로 → "이미지 → 제목 → CTA" 모바일 히어로 패턴 */
+    order: -1;
+  }
+
+  .hero-copy {
+    min-width: 0;
   }
 
   .visual-screen {
@@ -1976,18 +2132,92 @@ p.eyebrow,
   }
 
   h1 {
-    font-size: clamp(42px, 14vw, 62px);
+    /* CTA를 줄인 만큼 제목을 더 키워 위계 강조 */
+    font-size: clamp(34px, 10vw, 50px);
+  }
+
+  /* 이미지(위, 풀폭) + 텍스트(아래) 구조 — 오버레이 X라 인물이 글자에 안 가림 */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+  }
+
+  /* 도시 배경을 히어로 전체에 풀블리드로 — 상단 ~780px는 선명하게,
+     그 아래는 어둡게 fade해 본문과 자연스럽게 연결 */
+  .hero::after {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(2, 5, 8, 0.28) 0%,
+        rgba(2, 5, 8, 0.34) 320px,
+        rgba(2, 5, 8, 0.6) 620px,
+        rgba(2, 5, 8, 0.93) 780px,
+        rgba(2, 5, 8, 0.98) 100%
+      ),
+      url("../assets/hero-night-city.png");
+    background-size: cover;
+    background-position: center top;
+    opacity: 1;
   }
 
   .hero-copy {
-    padding: 22px 18px;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 26px 18px 4px;
+    /* 위쪽은 투명 → 도시 배경이 비치고, 본문/버튼 쪽은 솔리드로 가독성 확보 */
+    background: linear-gradient(
+      to bottom,
+      rgba(7, 10, 14, 0) 0%,
+      rgba(7, 10, 14, 0.5) 26%,
+      rgba(7, 10, 14, 0.9) 60%,
+      #070a0e 100%
+    );
+    border-left: none;
+  }
+
+  /* CTA 버튼: 작게 + 2단(한 줄에 두 개 나란히) */
+  .hero-actions {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .hero-actions .btn {
+    width: auto;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .hero-actions .btn-large {
+    min-width: 0;
+    min-height: 50px;
+    font-size: 14px;
+  }
+
+  .hero-actions .btn-primary::after,
+  .hero-actions .btn-dark::after {
+    margin-left: 8px;
+    font-size: 18px;
+  }
+
+  .hero-actions .play {
+    width: 24px;
+    height: 24px;
+    margin-right: 7px;
+    font-size: 11px;
   }
 
   .hero-desc {
     font-size: 15px;
   }
 
-  .hero-actions,
   .section-title {
     align-items: stretch;
     flex-direction: column;
@@ -1998,9 +2228,53 @@ p.eyebrow,
     width: 100%;
   }
 
-  .hero-visual,
+  /* 메인 비주얼: 상단 풀폭 프레임리스 블록 (인물 전체가 보이게, 텍스트와 안 겹침) */
+  /* 영상·이미지 모두 1448x1086(4:3)이므로 박스도 동일 비율로 맞춰
+     상하/좌우 잘림 없이 꽉 차게 표시 */
+  .hero-visual {
+    position: relative;
+    inset: auto;
+    order: -1;
+    z-index: 0;
+    width: 100%;
+    aspect-ratio: 1448 / 1086;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    max-width: none;
+    min-width: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    clip-path: none;
+  }
+
   .visual-screen {
-    min-height: 320px;
+    height: 100%;
+    min-height: 0;
+    background-size: cover;
+    background-position: center;
+    transform: none;
+  }
+
+  /* 박스와 소재 비율이 같아 잘림 없이 정확히 채워짐 */
+  .visual-video {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* 이미지 하단을 어둡게 → 아래 텍스트 영역과 매끄럽게 연결 */
+  .hero-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(7, 10, 14, 0) 74%,
+      rgba(7, 10, 14, 0.95) 100%
+    );
   }
 
   .news-grid,
@@ -2034,7 +2308,8 @@ p.eyebrow,
   }
 
   .news-rotator {
-    min-height: 580px;
+    /* 카드 높이(=롤러/2)를 내용에 맞게 줄여 본문↔'자세히 보기' 빈칸 축소 */
+    min-height: 440px;
   }
 
   .news-track .card-media {
@@ -2049,8 +2324,150 @@ p.eyebrow,
     font-size: 52px;
   }
 
+  /* 단체 뷰의 휑한 빈칸 제거: 숨겨진 능력치 바가 자리를 차지하지 않게 */
+  .stat-bars.is-hidden {
+    display: none;
+  }
+
+  /* 단체 뷰에서만: 박스(HUD 프레임) 밖으로 — 프레임/여백 제거 + 풀폭으로 시원하게 */
+  .character-image:not(.has-selection) {
+    width: calc(100% + 36px);
+    margin-left: -18px;
+    margin-right: -18px;
+    padding: 0;
+    border: none;
+    clip-path: none;
+    filter: drop-shadow(0 0 16px rgba(252, 238, 9, 0.12));
+  }
+
+  .character-image:not(.has-selection)::before,
+  .character-image:not(.has-selection)::after {
+    display: none;
+  }
+
+  /* 단체샷에 박힌 HUD 프레임을 살짝 확대해 잘라냄 (개별샷은 원래대로 유지) */
+  .character-image:not(.has-selection) #characterImage {
+    transform: scale(1.14);
+    transform-origin: center 48%;
+  }
+
+  /* 클릭 영역(단체샷 선택)도 같은 비율로 확대해 인물과 정렬 유지 */
+  .character-image:not(.has-selection) .group-map {
+    transform: translate(-50%, -50%) scale(1.14);
+    transform-origin: center 48%;
+  }
+
+  /* 세계관 이미지(초광폭)를 풀폭 파노라마로 — 레터박스 제거 + 박힌 프레임 살짝 크롭 */
+  .district-visual {
+    width: calc(100% + 36px);
+    margin-left: -18px;
+    margin-right: -18px;
+    min-height: 0;
+    height: 188px;
+  }
+
+  .district-visual img {
+    min-height: 0;
+    width: 122%;
+    height: 122%;
+    object-fit: cover;
+  }
+
+  /* 도시 구역 썸네일: 6장 세로 → 2단 그리드로 정돈(길이 절반) */
+  .districts .gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .gallery button {
+    aspect-ratio: 16 / 11;
+    min-height: 0;
+  }
+
+  .gallery button img {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+  }
+
+  /* 나이트 시티 지도: 풀폭으로 키워 구역 이름이 잘 보이게 */
+  .district-map {
+    width: calc(100% + 36px);
+    margin-left: -18px;
+    margin-right: -18px;
+    max-width: none;
+    overflow: hidden;
+  }
+
+  /* 지도 속 구역 부분을 확대해 키움(주변 UI 여백 크롭) + 클릭 영역 동일 확대 */
+  .district-map #districtMap {
+    transform: scale(1.16);
+    transform-origin: center;
+  }
+
+  .district-map .map-zones {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.16);
+    transform-origin: center;
+  }
+
+  /* 지도를 소제목(도시 구역)과 구역 이름(왓손 등) 사이로 이동 (모바일 전용) */
+  .districts .district-intro {
+    display: contents;
+  }
+
+  .districts .eyebrow {
+    order: 1;
+  }
+
+  .districts .district-map {
+    order: 2;
+    margin-top: 6px;
+  }
+
+  .districts #districtTitle {
+    order: 3;
+  }
+
+  .districts #districtDesc {
+    order: 4;
+  }
+
+  .districts .showcase {
+    order: 5;
+  }
+
+  .districts .gallery {
+    order: 6;
+  }
+
   .ghost-type {
     display: none;
+  }
+
+  /* 입자 위치를 작은 화면(가로 약 340px)에 맞춰 재배치 */
+  .fx-embers::before {
+    box-shadow:
+      30px 230px 0 0 rgba(0, 240, 255, 0.7),
+      90px 198px 0 0 rgba(180, 245, 255, 0.65),
+      150px 240px 0 0 rgba(0, 240, 255, 0.6),
+      205px 205px 0 0 rgba(0, 240, 255, 0.55),
+      265px 235px 0 0 rgba(252, 238, 9, 0.4),
+      315px 210px 0 0 rgba(0, 240, 255, 0.55);
+    animation: emberRiseMobile 9s linear infinite;
+  }
+
+  .fx-embers::after {
+    box-shadow:
+      60px 240px 0 0 rgba(0, 240, 255, 0.4),
+      125px 208px 0 0 rgba(0, 240, 255, 0.35),
+      185px 235px 0 0 rgba(180, 245, 255, 0.4),
+      245px 205px 0 0 rgba(0, 240, 255, 0.35),
+      300px 238px 0 0 rgba(0, 240, 255, 0.3);
+    animation: emberRiseMobile 13s linear infinite;
+    animation-delay: -6s;
   }
 
   .join-inner {
@@ -2162,7 +2579,8 @@ p.eyebrow,
   to { background-position: 0 0, -198px 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* '동작 줄이기' 무시: 절대 매칭되지 않는 조건으로 비활성화 (되돌리려면 'and (min-width: 999999px)' 제거) */
+@media (prefers-reduced-motion: reduce) and (min-width: 999999px) {
   .hero-copy:has(.btn-primary:hover) h1,
   .status-strip strong::before,
   .footer-status strong::before,
@@ -2182,4 +2600,7 @@ p.eyebrow,
   .district-visual.is-entering img,
   .world-copy.is-entering #worldTitle,
   .world-copy.is-entering #worldSubtitle,
-  .world-copy.is-e
+  .world-copy.is-entering #worldDesc {
+    animation: none;
+  }
+}
