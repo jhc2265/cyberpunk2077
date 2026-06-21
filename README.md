@@ -6,7 +6,7 @@
 
 <br>
 나이트 시티의 세계관, 도시 구역, 전설적 캐릭터들을 인터랙티브하게 탐험하는 정적(static) 랜딩 페이지입니다. 
-<br> 프레임워크 없이 순수 **HTML / CSS / JavaScript**로만 만들었습니다.
+<br> 프레임워크 없이 순수 HTML / CSS / JavaScript로만 만들었습니다.
 
 <br> 🔗 **데모**
 - GitHub Pages: https://jhc2265.github.io/cyberpunk2077/
