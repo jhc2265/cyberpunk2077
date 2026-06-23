@@ -52,7 +52,7 @@ const characters = {
   panam: {
     name: "팬앰 팔머",
     role: "노마드 / 드라이버",
-    image: "assets/character-panam.png",
+    image: "assets/character-panam.webp",
     desc: "나이트 시티 외곽을 누비는 알데칼도스 출신 노마드.\n거친 황야에서도 동료와 신념을 위해 끝까지 달린다.",
     quote: "내 가족을 건드리면, 그게 누구든 끝장이야.",
     en: "NOMAD",
@@ -61,7 +61,7 @@ const characters = {
   judy: {
     name: "주디 알바레스",
     role: "브레인댄스 / 테크니션",
-    image: "assets/character-judy.png",
+    image: "assets/character-judy.webp",
     desc: "브레인댄스 기술에 능한 감각적인 테크 전문가.\n화려한 도시의 이면에서 진실과 자유를 찾는다.",
     quote: "이 도시에서 진짜인 건 브레인댄스뿐이야... 슬프게도.",
     en: "TECHIE",
@@ -70,7 +70,7 @@ const characters = {
   jackie: {
     name: "재키 웰즈",
     role: "솔로 / 파트너",
-    image: "assets/character-jackie.png",
+    image: "assets/character-jackie.webp",
     desc: "나이트 시티의 전설을 꿈꾸는 든든한 파트너.\n강한 힘과 뜨거운 의리로 위험한 의뢰를 함께한다.",
     quote: "메이저 리그로 가는 거야, 초옴바!",
     en: "SOLO",
@@ -79,7 +79,7 @@ const characters = {
   v: {
     name: "V",
     role: "머서너리 / 레전드",
-    image: "assets/character-v.png",
+    image: "assets/character-v.webp",
     desc: "나이트 시티에서 살아남기 위해 모든 것을 걸었다.\n사이버웨어로 한계를 넘어, 전설이 될 기회를 쟁취하라.",
     quote: "전설이 된다는 건, 어떻게 죽느냐의 문제지.",
     en: "MERCENARY",
@@ -88,7 +88,7 @@ const characters = {
   johnny: {
     name: "조니 실버핸드",
     role: "락커보이 / 반역자",
-    image: "assets/character-johnny.png",
+    image: "assets/character-johnny.webp",
     desc: "기업이 지배하는 세상에 저항한 전설적인 락커보이.\n그의 목소리는 죽어서도 나이트 시티를 뒤흔든다.",
     quote: "도시는 안 바뀌어. 불태워야 바뀌지.",
     en: "ROCKERBOY",
@@ -97,7 +97,7 @@ const characters = {
   adam: {
     name: "아담 스매셔",
     role: "사이보그 / 병기",
-    image: "assets/character-adam.png",
+    image: "assets/character-adam.webp",
     desc: "인간성을 버리고 전투 병기가 된 아라사카의 괴물.\n압도적인 힘과 공포로 적을 완전히 짓밟는다.",
     quote: "넌 고철 덩어리가 될 거다.",
     en: "CYBORG",
@@ -189,7 +189,7 @@ if (characterPanel && cursorPing && !reduceMotion) {
 
 const groupView = {
   name: "나이트 시티의 전설들",
-  image: "assets/characters-group.png",
+  image: "assets/characters-group.webp",
   desc: "노마드, 테크니션, 솔로, 락커보이까지 —\n나이트 시티를 뒤흔든 전설들을 만나보라.",
   quote: "이 도시에서, 전설은 혼자 만들어지지 않는다.",
   en: "LEGENDS",
@@ -251,25 +251,25 @@ const worldSlides = [
     title: "나이트 시티",
     subtitle: "기회와 폭력이\n공존하는 도시",
     desc: "거대 기업의 탐욕과 지하 세계의 욕망,\n사이버 네트워크가 얽힌 거대한 미로.\n당신의 선택이 이 도시의 미래를 바꾼다.",
-    image: "assets/world-night-city.png",
+    image: "assets/world-night-city.webp",
   },
   {
     title: "기업 지배 사회",
     subtitle: "권력이 법이\n되는 세계",
     desc: "도시의 질서는 기업의 손에서 다시 쓰인다.\n돈과 데이터, 무력으로 움직이는 세계 속에서\n진실은 언제나 가장 비싼 대가를 요구한다.",
-    image: "assets/world-corporate.png",
+    image: "assets/world-corporate.webp",
   },
   {
     title: "사이버웨어",
     subtitle: "인간의 한계를\n넘어서는 기술",
     desc: "신체는 더 이상 타고난 조건이 아니다.\n팔, 눈, 신경, 기억까지 개조하며\n새로운 힘과 또 다른 위험을 마주한다.",
-    image: "assets/world-cyberware.png",
+    image: "assets/world-cyberware.webp",
   },
   {
     title: "배드랜드",
     subtitle: "네온 밖에\n펼쳐진 황무지",
     desc: "도시의 빛이 닿지 않는 끝없는 사막.\n법도 보호도 없는 땅에서 살아남기 위해\n속도와 동료, 그리고 선택만이 길이 된다.",
-    image: "assets/world-badlands.png",
+    image: "assets/world-badlands.webp",
   },
 ];
 
@@ -351,12 +351,12 @@ if (worldVisual && worldAutoplay && !reduceMotion) {
 }
 
 const districtSlides = [
-  "assets/district-01.png",
-  "assets/district-02.png",
-  "assets/district-03.png",
-  "assets/district-04.png",
-  "assets/district-05.png",
-  "assets/district-06.png",
+  "assets/district-01.webp",
+  "assets/district-02.webp",
+  "assets/district-03.webp",
+  "assets/district-04.webp",
+  "assets/district-05.webp",
+  "assets/district-06.webp",
 ];
 
 const districtNames = ["왓손", "웨스트브룩", "시티 센터", "헤이우드", "퍼시피카", "산토 도밍고"];
@@ -433,7 +433,7 @@ function showDistrict(index) {
     if (districtTitle) districtTitle.textContent = districtNames[index];
     if (districtDesc) districtDesc.innerHTML = districtDescs[index];
     if (districtMap) {
-      districtMap.src = `assets/map-0${index + 1}.png`;
+      districtMap.src = `assets/map-0${index + 1}.webp`;
       districtMap.alt = `나이트 시티 지도 — ${districtNames[index]}`;
     }
     districtShowcase.classList.remove("is-changing");

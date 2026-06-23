@@ -1,0 +1,12 @@
+# Local backup of original (pre-optimization) images — do not upload
+_original_assets/
+
+# Node / build artifacts
+node_modules/
+package.json
+package-lock.json
+optimize.js
+
+# OS junk
+.DS_Store
+Thumbs.db
