@@ -2088,6 +2088,14 @@ p.eyebrow,
     transform: none;
   }
 
+  /* 모바일: 세계관 탭을 2열로 — 01·02 / 03·04 (03을 둘째 줄로) */
+  .world-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    column-gap: 24px;
+    row-gap: 14px;
+  }
+
   .brand img {
     width: 174px;
   }
